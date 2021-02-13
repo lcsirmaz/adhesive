@@ -12,7 +12,7 @@ Actually, all known non-Shannon type entropy inequalities can be obtained
 this way.
 
 This repository contains the reports on computations which establish the set of
-necessary and sufficient conditions for (f,XM) and (g,YM)$ be adhesive 
+necessary and sufficient conditions for (f,XM) and (g,YM) be adhesive 
 when all sets X, M and Y have two elements.
 
 

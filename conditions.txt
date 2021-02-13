@@ -1,0 +1,41 @@
+[a,b,u,v]                                    +(x,a|b)+(x,b|a)+(a,b|x)
+[a,u,b,v]                                    +(x,a|b)+(x,b|a)+(a,b|x)
+
+[a,b,u,v]                                    +(xy,a|b)+(xy,b|a)+(a,b|xy)
+[a,u,b,v]                                    +(xy,a|b)+(xy,b|a)+(a,b|xy)
+
+[a,b,u,v]+(a,u|b)                            +(x,a|b)+(x,b|y)+(y,b|a)+(a,b|x)
+[a,u,b,v]+(a,u|b)                            +(x,a|b)+(x,b|y)+(y,b|a)+(a,b|x)
+[b,u,a,v]+(a,v|b)                            +(x,a|b)+(x,b|y)+(y,b|a)+(a,b|x)
+[b,u,a,v]+(a,u|b)                            +(x,a|b)+(x,b|y)+(y,b|a)+(a,b|x)
+
+[a,b,u,v]+(a,u|b)+(a,v|b)                    +(x,a|b)+(x,b|y)+(y,b|x)+(y,b|a)+(a,b|y)
+[b,u,a,v]+(a,u|b)+(a,v|b)                    +(x,a|b)+(x,b|y)+(y,b|x)+(y,b|a)+(a,b|y)
+
+[a,b,u,v]+(a,u|b)+(a,v|b)+(u,v|a)+(a,b|uv)   +(x,y|b)+(x,b|a)+(y,b|a)+(a,b|x)+(a,b|y)
+[a,u,b,v]+(a,u|b)+(a,v|u)+(b,v|a)            +(x,y|b)+(x,b|a)+(y,b|a)+(a,b|x)+(a,b|y)
+[b,u,a,v]+(a,u|b)+(a,v|b)+(a,v|u)+(b,u|av)   +(x,y|b)+(x,b|a)+(y,b|a)+(a,b|x)+(a,b|y)
+
+[a,b,u,v]+(a,u|b)+2(a,v|b)+(u,v|a)+(a,b|uv)  +(x,y|b)+(x,b|a)+(y,b|x)+(y,b|a)+2(a,b|y)
+[a,u,b,v]+2(a,u|b)+(a,v|u)+(b,v|a)           +(x,y|b)+(x,b|a)+(y,b|x)+(y,b|a)+2(a,b|y)
+[b,u,a,v]+2(a,u|b)+(a,v|b)+(a,v|u)+(b,u|av)  +(x,y|b)+(x,b|a)+(y,b|x)+(y,b|a)+2(a,b|y)
+[b,u,a,v]+(a,u|b)+2(a,v|b)+(a,v|u)+(b,u|av)  +(x,y|b)+(x,b|a)+(y,b|x)+(y,b|a)+2(a,b|y)
+
+[a,b,u,v]+(a,b|u)                            +(x,y|a)+(x,a|b)+(y,a|b)+(xy,b|a)+(a,b|xy)
+[b,u,a,v]+(a,b|u)                            +(x,y|a)+(x,a|b)+(y,a|b)+(xy,b|a)+(a,b|xy)
+
+[a,b,u,v]+2(a,u|b)+2(a,v|b)+(u,v|a)+(a,b|uv) +(x,y|b)+(x,b|y)+(y,b|x)+2(y,b|a)+2(a,b|y)
+[b,u,a,v]+2(a,u|b)+2(a,v|b)+(a,v|u)+(b,u|av) +(x,y|b)+(x,b|y)+(y,b|x)+2(y,b|a)+2(a,b|y)
+
+[b,u,a,v]+2(a,u|b)+(a,b|u)+(a,v|u)           +(x,b|y)+2(x,b|a)+(x,b|ay)+2(y,a|b)+(y,b|x)+(a,b|x)
+[a,u,b,v]+2(a,u|b)+(a,b|u)+(a,v|u)           +(x,b|y)+2(x,b|a)+(x,b|ay)+2(y,a|b)+(y,b|x)+(a,b|x)
+
+[a,b,u,v]+(a,b|u)+(a,b|v)                    +(x,y|a)+(x,y|b)+(x,a|b)+(x,b|a)+(y,a|b)+(y,b|a)+(a,b|xy)
+[a,u,b,v]+(a,u|v)+(a,b|u)                    +(x,y|a)+(x,a|b)+(x,b|a)+(y,a|b)+(y,b|a)+(a,b|xy)
+[a,b,u,v]+(a,u|b)+(a,v|b)+(u,v|a)            +(x,y|b)+(x,b|a)+(y,b|a)+(a,b|x)+(a,b|y)+(a,b|xy)
+[a,b,u,v]+(a,u|b)+(a,v|b)+(u,v|a)            +(x,y|b)+(x,b|a)+(xy,b|a)+(a,b|x)+(a,b|y)
+[a,b,u,v]+(a,u|b)+2(a,v|b)+(u,v|a)           +(x,y|b)+(x,b|y)+(y,b|x)+2(y,b|a)+(a,b|y)+(a,b|xy)
+[a,u,b,v]+2(a,u|b)+(a,v|u)+(b,v|a)+(a,u|bv)  +(x,a|b)+(x,b|y)+(y,b|x)+2(y,b|a)+2(a,b|y)
+[a,u,b,v]+3(a,u|b)+2(a,v|u)+2(b,v|a)+(a,u|bv)+(x,y|b)+(x,b|y)+(y,b|x)+3(y,b|a)+3(a,b|y)
+[a,u,b,v]+3(a,u|b)+(a,b|u)+2(a,v|u)+(b,v|a)  +(x,y|b)+(x,a|b)+(x,b|y)+(y,b|x)+3(y,b|a)+(y,b|ax)+2(a,b|y)
+
