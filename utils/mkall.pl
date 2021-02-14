@@ -158,6 +158,7 @@ sub read_ineq_file {
     while(<FILE>){
        chomp;
        next if(/^$/);
+       next if(/^#/);
        add_inequality($C,$n,$_); $n++;
     }
     close(FILE);

@@ -8,8 +8,9 @@
 
 use strict;
 
-my $case=1;     # 1,2,3,4 giving a|xyb or a|uvb; b|axy or b|auv
-my $ingleton=1; # 1,.., 6 which Ingleton on abuv is <=0
+my $case=1;      # 1 or 2, giving a|xyb or a|uvb; b|axy or b|auv
+my $ingleton1=1; # 1,.., 6 which Ingleton on abxy is <=0
+my $ingleton2=1; # 1,.., 6 which Ingleton on abuv is <=0
 
 my $facetEqFile = "../allfacets.txt";
 my $polcoJar = "../utils/polco.jar";
@@ -55,7 +56,7 @@ sub mkhash { # create a string from $arr
       next if $v==0;
       $h.=$v."";
    }
-   return $h
+   return $h;
 }
 
 ##########################################################
@@ -158,12 +159,8 @@ sub genA {
     } elsif($case==2){ ## a|xyb, b|auv
        make_eqvalue($info,"abxy","bxy");
        make_eqvalue($info,"abuv","auv");
-    } elsif($case==3){ ## b|xya, a|buv
-       make_eqvalue($info,"abxy","axy");
-       make_eqvalue($info,"abuv","buv");
-    } else { ## a|buv, b|auv
-       make_eqvalue($info,"abuv","buv");
-       make_eqvalue($info,"abuv","auv");
+    } else {
+       die "genA: wrong value for case=$case\n";
     }
     genSH($info,val("abxy"));
     genSH($info,val("abuv"));
@@ -291,27 +288,28 @@ sub try_indep {
 ##################################################################################
 # create all inequalities for <case><ingleton> as a two-digit number
 
-sub create_inequalities { 
+sub create_inequalities {
     my($arg)=@_;
-    if($arg !~ /^([1-4])([1-6])$/){ die "create_inequalities: wrong arg $arg\n"; }
-    $case=$1; $ingleton=$2;
+    if($arg !~ /^([1-2])([1-6])([1-6])$/){ die "create_inequalities: wrong arg $arg\n"; }
+    $case=$1; $ingleton1=$2; $ingleton2=$3;
     my $info={ A=>[], hash=>{}, T=>{} };
     genA($info);
-    ## add Ingleton inequalities
-    add_Ingleton($info,"a","b","x","y",1);
-    add_Ingleton($info,"a","x","b","y",1);
-    add_Ingleton($info,"a","y","b","x",1);
-    add_Ingleton($info,"b","x","a","y",1);
-    add_Ingleton($info,"b","y","a","x",1);
-    add_Ingleton($info,"x","y","a","b",1);
-    ## we have six possibilities here
-    if($ingleton==1){ add_Ingleton($info,"a","b","u","v",-1);}
-    elsif($ingleton==2){ add_Ingleton($info,"a","u","b","v",-1);}
-    elsif($ingleton==3){ add_Ingleton($info,"a","v","b","u",-1);}
-    elsif($ingleton==4){ add_Ingleton($info,"b","u","a","v",-1);}
-    elsif($ingleton==5){ add_Ingleton($info,"b","v","a","u",-1);}
-    elsif($ingleton==6){ add_Ingleton($info,"u","v","a","b",-1);}
-    else {die "ingleton=$ingleton is not 1..6\n"; }
+    ## add Ingleton inequalities for xyab
+    if($ingleton1==1){ add_Ingleton($info,"a","b","x","y",-1);}
+    elsif($ingleton1==2){ add_Ingleton($info,"a","x","b","y",-1);}
+    elsif($ingleton1==3){ add_Ingleton($info,"a","y","b","x",-1);}
+    elsif($ingleton1==4){ add_Ingleton($info,"b","x","a","y",-1);}
+    elsif($ingleton1==5){ add_Ingleton($info,"b","y","a","x",-1);}
+    elsif($ingleton1==6){ add_Ingleton($info,"x","y","a","b",-1);}
+    else {die "ingleton=$ingleton1 is not 1..6\n"; }
+    ## add Ingleton inequalities for abuv
+    if($ingleton2==1){ add_Ingleton($info,"a","b","u","v",-1);}
+    elsif($ingleton2==2){ add_Ingleton($info,"a","u","b","v",-1);}
+    elsif($ingleton2==3){ add_Ingleton($info,"a","v","b","u",-1);}
+    elsif($ingleton2==4){ add_Ingleton($info,"b","u","a","v",-1);}
+    elsif($ingleton2==5){ add_Ingleton($info,"b","v","a","u",-1);}
+    elsif($ingleton2==6){ add_Ingleton($info,"u","v","a","b",-1);}
+    else {die "ingleton=$ingleton2 is not 1..6\n"; }
     # add facet equations
     read_faceteqs($info,$facetEqFile);
     $info->{hash}={}; # no more used
@@ -383,7 +381,7 @@ sub parse_polco_line {
 }
 
 ##################################################################################
-# check if vertices returned by POLCO are indded internal points
+# check if vertices returned by POLCO are indeed internal points
 #
 use vertex;
 
@@ -414,16 +412,20 @@ sub check_vertices {
     close(PRES);
 }
 
+#################################################################################
+# and the main routine
+#
+
 sub run_all {
-    for my $x(1 .. 4){for my $y(1 .. 6){
-       my $info=create_inequalities("$x$y");
-       my $file="/tmp/FF$x$y";
+    for my $x(1 .. 2){for my $y(1 .. 6){for my $z(1 .. 6){
+       my $info=create_inequalities("$x$y$z");
+       my $file="/tmp/FF$x$y$z";
        print_MF($info,"$file.dat");
        system("java","-Xms3g","-jar",$polcoJar,"-level","OFF",
            "-kind","text","-iq","$file.dat","-out","text","$file.res");
        check_vertices($info,"$file.res");
        unlink "$file.dat","$file.res";
-    }}
+    }}}
     print "*** DONE ***\n";
     exit 0;
 }
