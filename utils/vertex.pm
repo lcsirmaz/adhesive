@@ -97,9 +97,11 @@ sub is_vertex {
       add_SH_inequality($info,$c,$arr);
    }
    # (xy,uv|ab)=0, last row
+if(0){
    my $c=getarr(); $c->[val("xyab")]=1; $c->[val("uvab")]=1;
    $c->[val("xyuvab")]=-1; $c->[val("ab")]=-1;
    add_SH_inequality($info,$c,$arr);
+}
    my $rows=scalar @{$info->{M}};
    my $fname=`mktemp -t -q vertexXXXXXX.spx`;
    chomp $fname;
@@ -116,7 +118,11 @@ sub is_vertex {
      }
      # right hand side, >= except for the last row, where we have =
      for my $i(0 .. $rows-1){
+if(0){
         print SPX ($i==$rows-1?"":"g"),$info->{RHS}->[$i],"\n";
+}else{
+        print SPX "g",$info->{RHS}->[$i],"\n";
+}
      }
    close(SPX);
    system("gspx","-x",$fname,$resname);\

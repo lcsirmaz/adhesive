@@ -10,7 +10,7 @@ Use [mkall](mkall.pl) to generate all bounding facets from
 symmetric variants.
 
 [gspx](gspx.c) is a C helper program which reads the constrain matrix and
-right hand side of an LP problem, and returns whether is has a frasible
+right hand side of an LP problem, and returns whether is has a feasible
 solution when all variables are non-negative.
 
 The [vertex](vertex.pm) module checks whether two polymatroids specified on

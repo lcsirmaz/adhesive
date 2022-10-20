@@ -24,7 +24,7 @@ pulled back to (XM,MY) and checked if they are indeed adhesive.
 
 Intermediate LP problems are solved using
 [GLPK](https://www.gnu.org/software/glpk/) with the C program [gspx.c](../utils/gspx.c)
-as wrapper. That program accepts the constraint matrix *M* and the left
+as wrapper. That program accepts the constraint matrix *M* and the right
 hand side, and returns whether there is a feasible solution when all
 variables are non-negative. 
 

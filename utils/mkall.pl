@@ -103,6 +103,11 @@ sub exprtoarr {
          add3toarr(\@arr,$a,$b,$c,$n);
          next;
       }
+      if($txt =~ s/^\(([abuvxy]+)\|([abuvxy]+)\)//){
+         my($a,$b)=($1,$2);
+         $arr[vval("$a$b")]+=$n; $arr[vval("$b")]-=$n;
+         next;
+      }
       die "wrong expression: $txt\n";
     }
     return \@arr;
@@ -175,7 +180,9 @@ sub report_all {
 #############################################################################################
 # and execute ...
 
-my $C=read_ineq_file("conditions.txt"); report_all($C); exit 3;
+my $file="conditions.txt";
+if(scalar @ARGV>0){ $file=$ARGV[0];}
+my $C=read_ineq_file($file); report_all($C); exit 0;
 
 
 
